@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from blog.views import home,registerView,loginView,logoutView,index
+from blog.views import registerView,loginView,logoutView,index,notFoundPage,errorServer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,3 +24,9 @@ urlpatterns = [
     path('register/',registerView),
     path('logout/',logoutView),
 ]
+
+hander404 = notFoundPage
+hander500 = errorServer
+#settings.py 的 DEBUG要變成False(表示非開發階段)
+#ALLOWED_HOSTS = []要變成['*']
+#錯誤頁面才會出現

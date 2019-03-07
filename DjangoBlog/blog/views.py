@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
-from blog.models import User
+from blog.models import User,Article
 from django.http import HttpResponse
 from django.contrib.auth.backends import ModelBackend
 from django.contrib import auth
-from django.db.models import Q
+
 
 def index(request):
     context          = {}
@@ -20,22 +20,12 @@ def index(request):
         context['link1']='登入'
         context['link2']='註冊'
     
+    #列出所有文章
+
+
     return render(request, 'index.html', context)
 
-def home(request):
-    context          = {}
-    if request.session.get('is_login',None): #檢查session確定是否登入，不允許重複登入
-        context['user'] =request.session.get('user_name') 
-    else:
-        context['user'] =''
     
-    return render(request, 'index.html', context)
-    
-    
-    
-
-# def login_page(request):
-#     return render(request, 'login.html')
 
 
 def registerView(request):
@@ -92,4 +82,9 @@ def logoutView(request):
         return redirect('/')
     request.session.flush() #一次性將session內容全部清除
     return redirect('/') 
-    
+
+def notFoundPage(request):
+    return render(request, '404.html')
+
+def errorServer(request):
+    return render(request, '500.html')

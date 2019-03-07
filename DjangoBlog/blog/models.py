@@ -9,7 +9,7 @@ class Category(models.Model):
 class User(models.Model):
     username = models.CharField(u'Username', max_length=50)
     account = models.CharField(u'Account', max_length=50)
-    password = models.CharField(u'Password', max_length=50)
+    password = models.CharField(u'Password', max_length=255)
 
     def __unicode__(self):
         return self.account
