@@ -23,6 +23,8 @@ urlpatterns = [
     path('login/',loginView),
     path('register/',registerView),
     path('logout/',logoutView),
+    path('404test/',notFoundPage),
+    path('500test/',errorServer),
 ]
 
 hander404 = notFoundPage
