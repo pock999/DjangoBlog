@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from blog.views import registerView,loginView,logoutView,index,notFoundPage,errorServer
+from blog.views import registerView,loginView,logoutView,index,notFoundPage,errorServer,manage_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('logout/',logoutView),
     path('404test/',notFoundPage),
     path('500test/',errorServer),
+    # path('manage',manage_page),
 ]
 
 hander404 = notFoundPage

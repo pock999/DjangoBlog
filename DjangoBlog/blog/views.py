@@ -21,8 +21,13 @@ def index(request):
         context['link2']='註冊'
     
     #列出所有文章
-
-
+    article_set = []
+    
+    for a in Article.objects.all():
+        arti = a
+        article_set.append(arti)
+    
+    context['article'] = article_set
     return render(request, 'index.html', context)
 
     
@@ -79,9 +84,18 @@ def loginView(request):
 
 def logoutView(request):
     if not request.session.get('is_login',None): #如果原本未登入，就不需要登出
-        return redirect('/')
-    request.session.flush() #一次性將session內容全部清除
+        return redirect('/') 
+    else:
+        request.session.flush() #一次性將session內容全部清除
+    
     return redirect('/') 
+
+def manage_page(request):
+    context = {}
+    if request.session.get('is_login',None):
+        return render(request, 'manage.html', context)
+    else:
+        return redirect("/")
 
 def notFoundPage(request):
     return render(request, '404.html')
