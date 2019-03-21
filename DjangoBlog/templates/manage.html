@@ -1,4 +1,22 @@
 {%extends "base.html" %}
 {% block mainbody %}
-
+    {% if article %}
+        {% for arti in article %}
+            <div class="jumbotron">
+            <h1 class="display-4">{{ arti.title }}</h1>
+            <span class="badge badge-pill badge-primary">{{ arti.category.name }}</span>
+            <p class="lead">{{ arti.account.username }}</p>
+            <hr class="my-4">
+            <p>{{ arti.content }}</p>
+            <a class="btn btn-primary btn-lg" href="#" role="button">編輯</a>
+            </div>  
+        {% endfor %}
+    {% else %}
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">親愛的{{ user }}，您好</h1>
+                <p class="lead">您並沒有新增文章</p>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

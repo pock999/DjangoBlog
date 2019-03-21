@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from blog.models import User,Article
 from django.http import HttpResponse
-from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import auth
 
 
@@ -10,7 +10,7 @@ def index(request):
     if request.session.get('is_login',None): #檢查session確定是否登入，不允許重複登入
         context['user'] =request.session.get('user_name') 
         context['href1']='logout'
-        context['href2']='#'
+        context['href2']='manage'
         context['link1']='登出'
         context['link2']='管理'
     else:
@@ -38,7 +38,8 @@ def registerView(request):
         return redirect("/")  #若已登入則導向主頁
     if request.method == 'POST':   #如果是 <register.html> 按登入鈕傳送
         acc = request.POST['account']   #取得表單傳送的帳號、密碼
-        pwd = request.POST['password']
+        pwd = make_password(request.POST['password'])
+        # pwd = request.POST['password']
         name = request.POST['name']
         try:
             user = User.objects.get(account=acc)  #以 user 取得名稱為acc的資料
@@ -65,7 +66,8 @@ def loginView(request):
             user = User.objects.get(account=acc)
             print('輸入:'+pwd)
             print('實際:'+user.password)
-            if user.password == pwd:
+            # if user.password == pwd:
+            if check_password(pwd,user.password):
                 #使用session寫入登入者資料
                 request.session['is_login'] = True
                 request.session['user_account'] = user.account
@@ -87,12 +89,24 @@ def logoutView(request):
         return redirect('/') 
     else:
         request.session.flush() #一次性將session內容全部清除
-    
     return redirect('/') 
 
 def manage_page(request):
     context = {}
     if request.session.get('is_login',None):
+        context['user'] =request.session.get('user_name') 
+        context['href1']='logout'
+        context['href2']='manage'
+        context['link1']='登出'
+        context['link2']='管理'
+        acc = request.session.get('user_account') 
+        #列出所有文章
+        article_set = []
+        print(acc)
+        for a in Article.objects.filter(account__account__exact = acc):
+            arti = a
+            article_set.append(arti)
+        context['article'] = article_set
         return render(request, 'manage.html', context)
     else:
         return redirect("/")

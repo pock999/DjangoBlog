@@ -25,7 +25,8 @@ urlpatterns = [
     path('logout/',logoutView),
     path('404test/',notFoundPage),
     path('500test/',errorServer),
-    # path('manage',manage_page),
+    path('manage/',manage_page),
+    path('manage/logout/',logoutView),
 ]
 
 hander404 = notFoundPage
