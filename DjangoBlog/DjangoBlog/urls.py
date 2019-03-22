@@ -19,14 +19,14 @@ from blog.views import registerView,loginView,logoutView,index,notFoundPage,erro
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',index),
-    path('login/',loginView),
-    path('register/',registerView),
-    path('logout/',logoutView),
+    path('',index,name="homepage"),
+    path('login/',loginView,name="Login"),
+    path('register/',registerView,name="Register"),
+    path('logout/',logoutView,name="Logout"),
     path('404test/',notFoundPage),
     path('500test/',errorServer),
-    path('manage/',manage_page),
-    path('manage/logout/',logoutView),
+    path('manage/',manage_page,name="ManagePage"),
+    # path('manage/edit/',),
 ]
 
 hander404 = notFoundPage

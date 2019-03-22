@@ -15,6 +15,7 @@ class User(models.Model):
         return self.account
 
 class Article(models.Model):
+    auto_increment_id = models.AutoField(primary_key = True)
     content = models.TextField(u'Content')
     title = models.CharField(u'Title', max_length=50)
     category = models.ForeignKey('Category',on_delete=models.CASCADE, blank=True, null=True)

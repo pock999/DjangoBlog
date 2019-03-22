@@ -13,7 +13,7 @@
 
 <body>
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{% url 'homepage' %}">
             Blog
         </a>
         <div style="color:aliceblue;">Hi! {{ user }}</div>
@@ -21,19 +21,29 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ href1 }}">{{ link1 }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ href2 }}">{{ link2 }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Disabled</a>
-                </li>
-            </ul>
-        </div>
+        {%if user%}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Logout' %}">{{ link1 }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ManagePage' %}">{{ link2 }}</a>
+                    </li>
+                </ul>
+            </div>
+        {%else%}
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Login' %}">{{ link1 }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'Register' %}">{{ link2 }}</a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
     </nav>
     <div class="container">
     {% block mainbody %}

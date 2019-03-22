@@ -9,14 +9,10 @@ def index(request):
     context          = {}
     if request.session.get('is_login',None): #檢查session確定是否登入，不允許重複登入
         context['user'] =request.session.get('user_name') 
-        context['href1']='logout'
-        context['href2']='manage'
         context['link1']='登出'
         context['link2']='管理'
     else:
         context['user'] =''
-        context['href1']='login'
-        context['href2']='register'
         context['link1']='登入'
         context['link2']='註冊'
     
@@ -95,8 +91,6 @@ def manage_page(request):
     context = {}
     if request.session.get('is_login',None):
         context['user'] =request.session.get('user_name') 
-        context['href1']='logout'
-        context['href2']='manage'
         context['link1']='登出'
         context['link2']='管理'
         acc = request.session.get('user_account') 

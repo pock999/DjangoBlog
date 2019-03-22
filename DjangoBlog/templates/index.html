@@ -2,6 +2,7 @@
 {% block mainbody %}
     {% for arti in article %}
         <div class="jumbotron">
+        <span class="badge badge-secondary">{{ arti.auto_increment_id }}</span>
         <h1 class="display-4">{{ arti.title }}</h1>
         <span class="badge badge-pill badge-primary">{{ arti.category.name }}</span>
         <p class="lead">{{ arti.account.username }}</p>
