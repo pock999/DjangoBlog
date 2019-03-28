@@ -1,6 +1,8 @@
+#coding:utf-8 
+from __future__ import unicode_literals 
 from django.shortcuts import render,redirect
 from blog.models import User,Article
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse 
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import auth
 

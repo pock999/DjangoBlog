@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from blog.views import registerView,loginView,logoutView,index,notFoundPage,errorServer,manage_page
-
+from blog.testview import apiPage,testProjectAPI,test
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',index,name="homepage"),
@@ -26,6 +26,9 @@ urlpatterns = [
     path('404test/',notFoundPage),
     path('500test/',errorServer),
     path('manage/',manage_page,name="ManagePage"),
+    path('testAPI/',testProjectAPI,name="testAPI"),
+    path('apitest/',apiPage,name="api"),
+    path('testNew/',test),
     # path('manage/edit/',),
 ]
 
