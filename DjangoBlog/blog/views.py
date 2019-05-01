@@ -1,7 +1,7 @@
-#coding:utf-8 
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals 
 from django.shortcuts import render,redirect
-from blog.models import User,Article
+from blog.models import User,Article,Category
 from django.http import HttpResponse,JsonResponse 
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import auth
@@ -94,7 +94,7 @@ def manage_page(request):
     if request.session.get('is_login',None):
         context['user'] =request.session.get('user_name') 
         context['link1']='登出'
-        context['link2']='管理'
+        context['link2']='新增文章'
         acc = request.session.get('user_account') 
         #列出所有文章
         article_set = []
@@ -106,6 +106,31 @@ def manage_page(request):
         return render(request, 'manage.html', context)
     else:
         return redirect("/")
+
+def write_article_page(request):
+    if request.session.get('is_login',None): #檢查session確定是否登入
+        if request.method == 'POST':   #如果是 <write_article.html> 按發布鈕傳送
+            acc = request.POST['account']   #取得表單傳送的帳號、文章類型、
+            art_type = request.POST['art_type']
+            art_title = request.POST['title']
+            art_content = request.POST['content']
+            article_tmp = Article.objects.create(account=acc,content=art_content,title=art_title,category=art_type)
+            article.save()    #將資料寫入資料庫
+            return redirect('/manage/')
+
+        context = {}
+        context['user'] =request.session.get('user_name') 
+        context['account'] = request.session.get('user_account')
+        context['link1']='登出'
+        context['link2']='管理'
+        title_option = []
+        category = Category.objects.all()
+        for cc in category:
+            title_option.append(cc)
+        context['title_option']=title_option
+        return render(request,'write_article.html',context)
+    else:
+        return redirect("/") #未登入轉回主頁
 
 def notFoundPage(request):
     return render(request, '404.html')
