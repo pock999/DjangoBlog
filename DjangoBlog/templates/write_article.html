@@ -1,15 +1,15 @@
 {%extends "base.html" %}
 {% block mainbody %}
-    <form method="POST" action="">
+    <form method="POST" action="{% url 'Post_Article' %}">
     {% csrf_token %}
         <div class="form-group">
             <label for="formControlRange">帳號</label>
-            <input class="form-control" type="text" placeholder="{{account}}" readonly name="account">
+            <input name="account" class="form-control" type="text" placeholder="{{account}}" readonly value="{{account}}">
         </div>
         <select class="form-control" name="art_type">
             <option selected="true" disabled="disabled">選擇類型</option>
             {% for t_op in title_option %}
-                <option>{{t_op.name}}</option>
+                <option value={{t_op.name}}>{{t_op.name}}</option>
             {% endfor %}
         </select>
         <div class="form-group">

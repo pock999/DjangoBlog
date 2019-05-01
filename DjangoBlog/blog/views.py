@@ -109,15 +109,6 @@ def manage_page(request):
 
 def write_article_page(request):
     if request.session.get('is_login',None): #檢查session確定是否登入
-        if request.method == 'POST':   #如果是 <write_article.html> 按發布鈕傳送
-            acc = request.POST['account']   #取得表單傳送的帳號、文章類型、
-            art_type = request.POST['art_type']
-            art_title = request.POST['title']
-            art_content = request.POST['content']
-            article_tmp = Article.objects.create(account=acc,content=art_content,title=art_title,category=art_type)
-            article.save()    #將資料寫入資料庫
-            return redirect('/manage/')
-
         context = {}
         context['user'] =request.session.get('user_name') 
         context['account'] = request.session.get('user_account')
@@ -129,6 +120,24 @@ def write_article_page(request):
             title_option.append(cc)
         context['title_option']=title_option
         return render(request,'write_article.html',context)
+    else:
+        return redirect("/") #未登入轉回主頁
+
+def post_article(request):
+    print('fdsfsd')
+    if request.session.get('is_login',None): #檢查session確定是否登入
+        
+        if request.method == 'POST':   #如果是 <write_article.html> 按發布鈕傳送
+                
+                acc = request.POST['account']   #取得表單傳送的帳號、文章類型、標題、內容
+                print(acc)
+                art_type = request.POST['art_type']
+                art_title = request.POST['title']
+                art_content = request.POST['content']
+                print(Category.objects.filter(name=art_type))
+                article_tmp = Article.objects.create(content=art_content,title=art_title,category=Category.objects.get(name=art_type),account=User.objects.get(account=acc))
+                article_tmp.save()    #將資料寫入資料庫
+                return redirect("/")
     else:
         return redirect("/") #未登入轉回主頁
 

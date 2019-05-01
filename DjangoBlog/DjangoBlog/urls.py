@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from blog.views import registerView,loginView,logoutView,index,notFoundPage,errorServer,manage_page,write_article_page
+from blog.views import registerView,loginView,logoutView,index,notFoundPage,errorServer,manage_page,write_article_page,post_article
 from blog.testview import apiPage,testProjectAPI,test
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('apitest/',apiPage,name="api"),
     path('testNew/',test),
     path('manage/write_article/',write_article_page,name="Write_Article"),
+    path('manage/write_article/post_article',post_article,name="Post_Article"),
 ]
 
 hander404 = notFoundPage
