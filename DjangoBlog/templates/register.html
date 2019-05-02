@@ -13,6 +13,11 @@
 </head>
 
 <body>
+{% if message %}
+    <script>
+        alert('{{ message }}');
+    </script>
+{% endif %}
     <div class="container login_contain">
         <h1>註冊</h1>
         <form method="POST" action="">

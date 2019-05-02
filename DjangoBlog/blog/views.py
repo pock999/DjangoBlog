@@ -32,6 +32,7 @@ def index(request):
 
 
 def registerView(request):
+    content = {}
     if request.session.get('is_login',None): #檢查session確定是否登入，不允許重複登入
         return redirect("/")  #若已登入則導向主頁
     if request.method == 'POST':   #如果是 <register.html> 按登入鈕傳送
@@ -39,22 +40,27 @@ def registerView(request):
         pwd = make_password(request.POST['password'])
         # pwd = request.POST['password']
         name = request.POST['name']
-        try:
-            user = User.objects.get(account=acc)  #以 user 取得名稱為acc的資料
-        except:
-            user = None   #若acc不存在則設定為 None
-        if user != None:
-            message = user.account + " 帳號已經建立! "
-            print(message)
-            return HttpResponse(message)
-        else:  #建立 acc 帳號
-            user = User.objects.create(account=acc,password=pwd,username=name)
-            user.save()    #將資料寫入資料庫
-            return redirect('/')   #若成功建立，重新導向至 index介面
-    return render(request,"register.html",locals())  #註冊失敗則重導回<register.html>
+        if name == '' or acc=='' or pwd =='':
+            content['message'] = '任何一欄不得為空'
+        else:
+            try:
+                user = User.objects.get(account=acc)  #以 user 取得名稱為acc的資料
+            except:
+                user = None   #若acc不存在則設定為 None
+            
+            if user != None:
+                message = user.account + " 帳號已經建立! "
+                print(message)
+                content['message'] = message
+            else:  #建立 acc 帳號
+                user = User.objects.create(account=acc,password=pwd,username=name)
+                user.save()    #將資料寫入資料庫
+                return redirect('/')   #若成功建立，重新導向至 index介面    
+    return render(request,"register.html",content)#註冊失敗則重導回<register.html>
 
 
 def loginView(request):
+    content = {}
     if request.session.get('is_login',None): #檢查session確定是否登入，不允許重複登入
         return redirect("/")  #若已登入則導向主頁
     if request.method == 'POST':   #如果是 <login.html> 按登入鈕傳送
@@ -78,7 +84,9 @@ def loginView(request):
             message="該用戶不存在"
         
         print(message)
-    return render(request,"login.html",locals())  #登入失敗則重導回<login.html>
+        
+        content['message'] = message
+    return render(request,"login.html",content)  #登入失敗則重導回<login.html>
 # Create your views here.
 
 
@@ -129,7 +137,7 @@ def post_article(request):
         
         if request.method == 'POST':   #如果是 <write_article.html> 按發布鈕傳送
                 
-                acc = request.POST['account']   #取得表單傳送的帳號、文章類型、標題、內容
+                acc = request.session.get('user_account')   #取得表單傳送的帳號、文章類型、標題、內容
                 print(acc)
                 art_type = request.POST['art_type']
                 art_title = request.POST['title']
