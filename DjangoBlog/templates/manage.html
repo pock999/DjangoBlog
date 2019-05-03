@@ -2,14 +2,18 @@
 {% block mainbody %}
     {% if article %}
         {% for arti in article %}
-            <div class="jumbotron">
-            <h1 class="display-4">{{ arti.title }}</h1>
-            <span class="badge badge-pill badge-primary">{{ arti.category.name }}</span>
-            <p class="lead">{{ arti.account.username }}</p>
-            <hr class="my-4">
-            <p>{{ arti.content }}</p>
-            <a class="btn btn-primary btn-lg" href="#" role="button">編輯</a>
-            </div>  
+            <form class="jumbotron" method="POST" action="/manage/edit/">
+            {% csrf_token %}
+                <input class="form-control" type="hidden" value="{{ arti.auto_increment_id }}" readonly name="article_id">
+                
+                <span class="badge badge-secondary">{{ arti.auto_increment_id }}</span>
+                <h1 class="display-4">{{ arti.title }}</h1>
+                <span class="badge badge-pill badge-primary">{{ arti.category.name }}</span>
+                <p class="lead">{{ arti.account.username }}</p>
+                <hr class="my-4">
+                <p>{{ arti.content }}</p>
+                <button type="submit" class="btn btn-primary btn-lg">編輯</button>
+            </form>  
         {% endfor %}
     {% else %}
         <div class="jumbotron jumbotron-fluid">

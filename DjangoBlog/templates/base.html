@@ -12,6 +12,12 @@
 </head>
 
 <body>
+{% if message %}
+    <script>
+        alert('{{ message }}');
+        location.href='/'
+    </script>
+{% endif %}
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="{% url 'homepage' %}">
             Blog
