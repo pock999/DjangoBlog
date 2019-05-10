@@ -31,7 +31,7 @@ def registerView(request):
                 user = User.objects.create(account=acc,password=pwd,username=name)
                 user.save()    #將資料寫入資料庫
                 content['message'] = '註冊成功'
-                return render(request,'index.html',context)   #若成功建立，重新導向至 index介面   
+                return render(request,'index.html',content)   #若成功建立，重新導向至 index介面   
            
     return render(request,"register.html",content)#註冊失敗則重導回<register.html>
 
@@ -54,7 +54,7 @@ def loginView(request):
                 request.session['user_account'] = user.account
                 request.session['user_name'] = user.username
                 content['message'] = "登入成功"
-                return render(request,'index.html',context) 
+                return render(request,'index.html',content) 
             else:
                 message = "密碼不正確"
         except:
